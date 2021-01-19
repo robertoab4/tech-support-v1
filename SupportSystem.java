@@ -33,13 +33,13 @@ public class SupportSystem
     public void start()
     {
         boolean finished = false;
-
+        
         printWelcome();
 
         while(!finished) {
             String input = reader.getInput();
-            input = input.trim().toLowerCase();
-            if(input.startsWith("bye")) {
+            
+            if(input.trim().toLowerCase().equals("bye")) {
                 finished = true;
             }
             else {
