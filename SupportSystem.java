@@ -37,13 +37,12 @@ public class SupportSystem
         printWelcome();
 
         while(!finished) {
-            String input = reader.getInput();
-            
-            if(input.trim().toLowerCase().equals("bye")) {
+            String input = reader.getInput().trim().toLowerCase();
+            if(input.equals("bye")) {
                 finished = true;
             }
             else {
-                String response = responder.generateResponse();
+                String response = responder.generateResponse(input);
                 System.out.println(response);
             }
         }
