@@ -33,4 +33,14 @@ public class InputReader
 
         return inputLine;
     }
+    
+    /*public HashSet<String> getInput() {
+        String inputLine = reader.getInput().trim().toLowerCase();
+        String[] wordArray = inputLine.split(" ");
+        HashSet<String> words = new HashSet<>();
+        for (String word : wordArray){
+            words.add(word);
+        }
+        return words;
+    }*/
 }
