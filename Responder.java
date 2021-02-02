@@ -16,10 +16,7 @@ public class Responder
     private Random random;
     private ArrayList<String> responses;
     private HashMap<HashSet<String>, String> possibleResponses;
-    private HashSet<String> largeInputFirst;
-    private HashSet<String> largeInputSecond;
-    private HashSet<String> largeInputThird;
-    private HashSet<String> largeInputFourth;
+    
     /**
      * Construct a Responder - nothing to do
      */
@@ -28,9 +25,6 @@ public class Responder
         random = new Random();
         responses = new ArrayList();
         possibleResponses = new HashMap<>();
-        largeInputSecond = new HashSet<>();
-        largeInputThird = new HashSet<>();
-        largeInputFourth = new HashSet<>();
         
         responses.add("Sorry about that. We are looking what could have caused the problem");
         responses.add("We are looking what could have generated the error.");
@@ -39,36 +33,13 @@ public class Responder
         responses.add("Is the error called '404'?");
         
         // First HashSet
-        String first = "i have an error";                  
-        String[] firstSplited = first.split(" ");  
-        largeInputFirst = new HashSet<>();
-        for (String word : firstSplited){
-            largeInputFirst.add(word);
-        }
-        
-        // Second HashSet
-        String second = "my computer crashed";                  
-        String[] secondSplited = second.split(" ");  
-        largeInputSecond = new HashSet<>();
-        for (String word : secondSplited){
-            largeInputSecond.add(word);
-        }
-        
-        // Third HashSet
-        String third = "my screen shows the number 404";                  
-        String[] thirdSplited = third.split(" ");  
-        largeInputThird = new HashSet<>();
-        for (String word : thirdSplited){
-            largeInputThird.add(word);
-        }
-        
-        // Fourth HashSet
-        String fourth = "my program is really slow";                  
-        String[] fourthSplited = fourth.split(" ");  
-        largeInputFourth = new HashSet<>();
-        for (String word : fourthSplited){
-            largeInputFourth.add(word);
-        }
+        HashSet<String>largeInputFirst = keyCreator("i have an error");
+        // Second HashSet                 
+        HashSet<String>largeInputSecond = keyCreator("my computer crashed"); 
+        // Third HashSet 
+        HashSet<String> largeInputThird = keyCreator("my screen shows the error 404");
+        // Fourth HashSet  
+        HashSet<String> largeInputFourth = keyCreator("my program is really slow");
         
         possibleResponses.put(largeInputFirst, "Try to restart the computer and our program please");
         possibleResponses.put(largeInputSecond, "Is the screen going red? Try re-installing the software to solve the problem");
@@ -83,22 +54,20 @@ public class Responder
     public String generateResponse(HashSet<String> userInput)
     {
         String returnedString = null;
+        //ANTIGUO QUE FUNCIONABA CON PALABRAS SUELTAS
+        
         /*Iterator<String> userInputs = userInput.iterator();
         while (userInputs.hasNext()){
             String keyWord = userInputs.next();
             if (possibleResponses.containsKey(keyWord)){       
                 returnedString = possibleResponses.get(keyWord);
-                 * PROBLEMA
-                 * si introduces "404 error" te devuelve el valor de la clave error y no el de 404, no se por que.
-                 * solo me ha funcionado con esta solucion, las demas no me salian
-                  
+                 // PROBLEMA
+                 // si introduces "404 error" te devuelve el valor de la clave error y no el de 404, no se por que.
+                 // solo me ha funcionado con esta solucion, las demas no me salian                  
             }
-
         }*/
 
-        /*if (possibleResponses.containsKey(userInput.iterator().next())){       
-        /*    returnedString = possibleResponses.get(userInput.iterator().next());
-        }*/
+   
         if (possibleResponses.containsKey(userInput)){       
             returnedString = possibleResponses.get(userInput);
         }
@@ -107,5 +76,14 @@ public class Responder
         }
 
         return returnedString;        
+    }
+    
+    private HashSet<String> keyCreator(String fullInput){                  
+        String[] fullInputSplited = fullInput.split(" ");  
+        HashSet<String> fullInputToHashSet = new HashSet<>();
+        for (String word : fullInputSplited){
+            fullInputToHashSet.add(word);
+        }
+        return fullInputToHashSet;
     }
 }
