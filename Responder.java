@@ -20,6 +20,8 @@ public class Responder
     private HashSet<String> largeInputSecond;
     private HashSet<String> largeInputThird;
     private HashSet<String> largeInputFourth;
+    private String lastReturnedString;
+    
     /**
      * Construct a Responder - nothing to do
      */
@@ -28,6 +30,7 @@ public class Responder
         random = new Random();
         responses = new ArrayList();
         possibleResponses = new HashMap<>();
+        lastReturnedString = "";
         
         responses.add("Sorry about that. We are looking what could have caused the problem");
         responses.add("We are looking what could have generated the error.");
@@ -57,7 +60,7 @@ public class Responder
     public String generateResponse(HashSet<String> userInput)
     {
         String returnedString = null;
-        int whatToReturn = 0;
+        int whatToReturn = 0;        
         Iterator<HashSet<String>> possibleResponsesIterator = possibleResponses.keySet().iterator();
         while (possibleResponsesIterator.hasNext()){
             int counter = 0;
@@ -75,6 +78,10 @@ public class Responder
         if(whatToReturn == 0) {
             returnedString = responses.get(random.nextInt(responses.size()));
         } 
+        if (lastReturnedString == returnedString){
+            returnedString = responses.get(random.nextInt(responses.size()));
+        }
+        lastReturnedString = returnedString;
         return returnedString;        
     }
     
