@@ -16,7 +16,10 @@ public class Responder
     private Random random;
     private ArrayList<String> responses;
     private HashMap<HashSet<String>, String> possibleResponses;
-    
+    private HashSet<String> largeInputFirst;
+    private HashSet<String> largeInputSecond;
+    private HashSet<String> largeInputThird;
+    private HashSet<String> largeInputFourth;
     /**
      * Construct a Responder - nothing to do
      */
@@ -33,18 +36,18 @@ public class Responder
         responses.add("Is the error called '404'?");
         
         // First HashSet
-        HashSet<String>largeInputFirst = keyCreator("i have an error");
+        largeInputFirst = keyCreator("i have an error");
         // Second HashSet                 
-        HashSet<String>largeInputSecond = keyCreator("my computer crashed"); 
+        largeInputSecond = keyCreator("my computer crashed"); 
         // Third HashSet 
-        HashSet<String> largeInputThird = keyCreator("my screen shows the error 404");
+        largeInputThird = keyCreator("my screen shows the error 404");
         // Fourth HashSet  
-        HashSet<String> largeInputFourth = keyCreator("my program is really slow");
+        largeInputFourth = keyCreator("my program is really slow");
         
         possibleResponses.put(largeInputFirst, "Try to restart the computer and our program please");
         possibleResponses.put(largeInputSecond, "Is the screen going red? Try re-installing the software to solve the problem");
         possibleResponses.put(largeInputThird, "Maybe your internet conexion is not as fast as our software needs");
-        possibleResponses.put(largeInputFourth, "Do you have more tha 4GB os ram? Our software needs at least 4GB to work.");  
+        possibleResponses.put(largeInputFourth, "Do you have more tha 4GB of ram? Our software needs at least 4GB to work.");  
     }
 
     /**
@@ -54,31 +57,30 @@ public class Responder
     public String generateResponse(HashSet<String> userInput)
     {
         String returnedString = null;
-        //ANTIGUO QUE FUNCIONABA CON PALABRAS SUELTAS
-        
-        /*Iterator<String> userInputs = userInput.iterator();
-        while (userInputs.hasNext()){
-            String keyWord = userInputs.next();
-            if (possibleResponses.containsKey(keyWord)){       
-                returnedString = possibleResponses.get(keyWord);
-                 // PROBLEMA
-                 // si introduces "404 error" te devuelve el valor de la clave error y no el de 404, no se por que.
-                 // solo me ha funcionado con esta solucion, las demas no me salian                  
+                
+        int counter = 0;
+        int whatToReturn = 0;
+        Iterator<HashSet<String>> possibleResponsesIterator = possibleResponses.keySet().iterator();
+        while (possibleResponsesIterator.hasNext()){
+            HashSet<String> possibleResponsesHashSet = possibleResponsesIterator.next();
+            for (String key : possibleResponsesHashSet){
+                if(userInput.contains(key)){                   
+                    counter++;                                   
+                }  
             }
-        }*/
-
-   
-        if (possibleResponses.containsKey(userInput)){       
-            returnedString = possibleResponses.get(userInput);
-        }
-        else {
-            returnedString = responses.get(random.nextInt(responses.size()));
-        }
-
+            if (counter > whatToReturn){
+                returnedString = possibleResponses.get(possibleResponsesHashSet);
+                whatToReturn = counter;
+            }              
+            else if(whatToReturn == 0) {
+                returnedString = responses.get(random.nextInt(responses.size()));
+            }
+            counter = 0;
+        }        
         return returnedString;        
     }
     
-    private HashSet<String> keyCreator(String fullInput){                  
+    private HashSet<String> keyCreator(String fullInput){                   
         String[] fullInputSplited = fullInput.split(" ");  
         HashSet<String> fullInputToHashSet = new HashSet<>();
         for (String word : fullInputSplited){
