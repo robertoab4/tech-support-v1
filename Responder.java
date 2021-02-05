@@ -57,26 +57,24 @@ public class Responder
     public String generateResponse(HashSet<String> userInput)
     {
         String returnedString = null;
-                
-        int counter = 0;
         int whatToReturn = 0;
         Iterator<HashSet<String>> possibleResponsesIterator = possibleResponses.keySet().iterator();
         while (possibleResponsesIterator.hasNext()){
+            int counter = 0;
             HashSet<String> possibleResponsesHashSet = possibleResponsesIterator.next();
             for (String key : possibleResponsesHashSet){
                 if(userInput.contains(key)){                   
                     counter++;                                   
                 }  
             }
-            if (counter > whatToReturn){
+            if(counter > whatToReturn){
                 returnedString = possibleResponses.get(possibleResponsesHashSet);
                 whatToReturn = counter;
-            }              
-            else if(whatToReturn == 0) {
-                returnedString = responses.get(random.nextInt(responses.size()));
-            }
-            counter = 0;
-        }        
+            }            
+        }   
+        if(whatToReturn == 0) {
+            returnedString = responses.get(random.nextInt(responses.size()));
+        } 
         return returnedString;        
     }
     
