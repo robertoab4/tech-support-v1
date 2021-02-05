@@ -78,7 +78,7 @@ public class Responder
         if(whatToReturn == 0) {
             returnedString = responses.get(random.nextInt(responses.size()));
         } 
-        if (lastReturnedString == returnedString){
+        if (lastReturnedString.equals(returnedString)){
             returnedString = responses.get(random.nextInt(responses.size()));
         }
         lastReturnedString = returnedString;
